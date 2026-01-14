@@ -22,9 +22,12 @@ function setSavedTheme(theme) {
   localStorage.setItem("memory_match_theme", theme);
 }
 function applyTheme(theme) {
-  // standard is the default neon; retro is the arcade theme
-  document.documentElement.dataset.theme = (theme === "retro") ? "retro" : "standard";
+  const link = document.getElementById("themeStylesheet");
+  const t = (theme === "retro") ? "retro" : "standard";
+  link.href = (t === "retro") ? "theme-retro.css" : "theme-standard.css";
+  document.documentElement.dataset.theme = t; // optional (handy for minor tweaks)
 }
+
 
 // ===== Utilities =====
 function shuffle(arr) {
@@ -492,3 +495,4 @@ function reset(mode) {
   // Start game
   reset($("mode").value);
 })();
+
