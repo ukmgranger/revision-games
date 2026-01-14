@@ -20,6 +20,103 @@
   --shadow2: 0 12px 25px rgba(0,0,0,.35);
 }
 
+/* Theme switcher:
+   default (no attribute or data-theme="standard") uses your current neon look.
+   Retro theme overrides variables + adds a few extra effects.
+*/
+:root[data-theme="retro"]{
+  --bg1:#0b0b12;
+  --bg2:#120a24;
+
+  --panel: rgba(255,255,255,.06);
+  --panel2: rgba(255,255,255,.09);
+  --card: rgba(255,255,255,.07);
+  --border: rgba(255,255,255,.16);
+
+  --text:#fff7ff;
+  --muted: rgba(255,247,255,.72);
+
+  --accent:#ff2bd6;   /* hot pink */
+  --accent2:#00f5ff;  /* neon cyan */
+  --good:#8bff2b;     /* neon green */
+  --warn:#ffe24a;     /* arcade yellow */
+  --bad:#ff3b3b;      /* red */
+
+  --shadow: 0 24px 70px rgba(0,0,0,.55);
+  --shadow2: 0 14px 28px rgba(0,0,0,.40);
+}
+
+/* Retro theme: add scanlines + a little chromatic glow */
+:root[data-theme="retro"] body{
+  background:
+    radial-gradient(900px 650px at 15% 10%, rgba(255,43,214,.24), transparent 60%),
+    radial-gradient(900px 650px at 85% 25%, rgba(0,245,255,.18), transparent 55%),
+    radial-gradient(700px 500px at 55% 95%, rgba(139,255,43,.12), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+/* Scanlines overlay */
+:root[data-theme="retro"] body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.06) 0px,
+      rgba(255,255,255,.06) 1px,
+      rgba(0,0,0,0) 3px,
+      rgba(0,0,0,0) 6px
+    );
+  opacity:.12;
+  mix-blend-mode: overlay;
+}
+
+/* Make everything feel a bit more arcade */
+:root[data-theme="retro"] h1::before{ content:"🕹️"; }
+
+:root[data-theme="retro"] .pill,
+:root[data-theme="retro"] button,
+:root[data-theme="retro"] select,
+:root[data-theme="retro"] .msg,
+:root[data-theme="retro"] .card{
+  border-color: rgba(255,255,255,.18);
+  box-shadow:
+    var(--shadow2),
+    0 0 0 2px rgba(255,43,214,.06),
+    0 0 22px rgba(0,245,255,.10);
+}
+
+/* Chunkier, “pixel-ish” vibe without changing layout */
+:root[data-theme="retro"] button,
+:root[data-theme="retro"] select{
+  border-radius: 10px;
+  text-transform: none;
+}
+
+/* Retro hover glow */
+:root[data-theme="retro"] button:hover,
+:root[data-theme="retro"] .card:hover{
+  box-shadow:
+    0 26px 65px rgba(0,0,0,.60),
+    0 0 0 3px rgba(255,43,214,.16),
+    0 0 35px rgba(0,245,255,.16);
+}
+
+/* Retro card holographic shift */
+:root[data-theme="retro"] .card::before{
+  opacity:.58;
+  background:
+    linear-gradient(110deg,
+      rgba(255,43,214,.26),
+      rgba(0,245,255,.20),
+      rgba(255,226,74,.16),
+      rgba(139,255,43,.12));
+}
+
+
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{
@@ -385,3 +482,4 @@ footer{
   .front{ font-size: 42px; }
   header{ backdrop-filter: blur(10px); }
 }
+
