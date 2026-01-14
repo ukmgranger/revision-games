@@ -32,6 +32,19 @@ function setMessage(html) {
   $("message").innerHTML = html;
 }
 
+function sample(arr, n) {
+  // Random sample without replacement
+  if (n >= arr.length) return [...arr];
+  const copy = [...arr];
+  // Fisher–Yates shuffle partial
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, n);
+}
+
+
 // ===== Confetti =====
 function confettiBurst() {
   let canvas = document.getElementById("confetti");
@@ -182,9 +195,14 @@ function bestLine(deckId, mode) {
 function pickPairs(deck, mode) {
   const all = deck.pairs;
   const size = deck.modeSizes?.[mode];
-  if (size == null) return all;     // null => all pairs
-  return all.slice(0, size);
+
+  // null/undefined means "all pairs"
+  if (size == null) return all;
+
+  // Random subset each new game for sized modes (easy_quick, quick, standard)
+  return sample(all, size);
 }
+
 
 function buildDeck(pairList) {
   const cards = [];
@@ -439,3 +457,4 @@ function reset(mode) {
   // Start game
   reset($("mode").value);
 })();
+
