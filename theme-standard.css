@@ -1,0 +1,276 @@
+/* theme-standard.css
+   Neon / glossy theme (your current “standard” look)
+   Requires base.css loaded first.
+*/
+
+/* ---------- Fonts (optional; safe fallback if not loaded) ---------- */
+body{
+  font-family: "Fredoka", ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ---------- Colors / background ---------- */
+:root{
+  --bg1:#05060f;
+  --bg2:#0a0f2a;
+
+  --panel: rgba(255,255,255,.07);
+  --panel2: rgba(255,255,255,.10);
+  --card: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.16);
+
+  --text:#f3f6ff;
+  --muted: rgba(243,246,255,.75);
+
+  --accent:#7c5cff;   /* purple */
+  --accent2:#00d4ff;  /* cyan */
+  --good:#2be37a;
+  --warn:#ffcc66;
+  --bad:#ff5c7a;
+
+  --shadow: 0 22px 55px rgba(0,0,0,.45);
+  --shadow2: 0 12px 25px rgba(0,0,0,.35);
+}
+
+body{
+  color: var(--text);
+  background:
+    radial-gradient(900px 650px at 15% 10%, rgba(124,92,255,.32), transparent 60%),
+    radial-gradient(900px 650px at 85% 25%, rgba(0,212,255,.22), transparent 55%),
+    radial-gradient(700px 500px at 55% 95%, rgba(43,227,122,.14), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+/* Animated aurora sweep */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(124,92,255,.25), transparent 45%),
+    radial-gradient(circle at 80% 40%, rgba(0,212,255,.18), transparent 48%),
+    radial-gradient(circle at 50% 80%, rgba(255,92,122,.12), transparent 52%);
+  filter: blur(18px);
+  opacity:.8;
+  animation: aurora 12s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:-2;
+}
+@keyframes aurora{
+  from{ transform: translate3d(-2%, 1%, 0) rotate(-2deg); }
+  to  { transform: translate3d( 3%,-2%, 0) rotate( 2deg); }
+}
+
+/* Floating sparkles */
+body::after{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(255,255,255,.08) 0 8px, transparent 9px),
+    radial-gradient(circle at 35% 70%, rgba(255,255,255,.06) 0 7px, transparent 8px),
+    radial-gradient(circle at 65% 40%, rgba(255,255,255,.05) 0 10px, transparent 11px),
+    radial-gradient(circle at 80% 75%, rgba(255,255,255,.04) 0 9px, transparent 10px);
+  opacity:.55;
+  animation: floaty 18s linear infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+@keyframes floaty{
+  from{ transform: translate3d(0,0,0) rotate(0deg); }
+  to  { transform: translate3d(6%, -4%, 0) rotate(10deg); }
+}
+
+/* ---------- Header ---------- */
+header{
+  backdrop-filter: blur(14px);
+}
+
+h1{
+  text-shadow: 0 10px 20px rgba(0,0,0,.35);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+h1::before{
+  content:"🎮";
+  filter: drop-shadow(0 14px 22px rgba(124,92,255,.35));
+}
+
+.sub{ color: var(--muted); }
+
+/* ---------- Pills / Controls ---------- */
+.pill{
+  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: var(--shadow2);
+}
+
+/* Buttons & selects */
+button, select{
+  background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.07));
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: var(--shadow2);
+  color: var(--text);
+}
+
+button{
+  transition: transform .08s ease, filter .18s ease, box-shadow .18s ease;
+}
+button:hover{
+  filter: brightness(1.12);
+  box-shadow:
+    0 18px 35px rgba(0,0,0,.40),
+    0 0 0 3px rgba(124,92,255,.12);
+}
+button:active{
+  transform: translateY(1px) scale(.99);
+}
+
+/* Make primary buttons pop */
+#newGame{
+  border-color: rgba(124,92,255,.55);
+  box-shadow: var(--shadow2), 0 0 20px rgba(124,92,255,.18);
+}
+#hint{
+  border-color: rgba(0,212,255,.55);
+  box-shadow: var(--shadow2), 0 0 20px rgba(0,212,255,.16);
+}
+
+/* Select fixes (prevents white background) */
+select{
+  appearance:none;
+  padding-right: 36px;
+  background-color: rgba(12, 16, 35, 0.75) !important;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.78) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.78) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 55%,
+    calc(100% - 12px) 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+select option{
+  background: #0c1023;
+  color: var(--text);
+}
+select:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0,212,255,.16);
+}
+
+/* ---------- Message ---------- */
+.msg{
+  background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.07));
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: var(--shadow);
+}
+.msg strong{ color: var(--warn); }
+.tiny{ color: var(--muted); }
+
+.tiny code{
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* ---------- Cards ---------- */
+.card{
+  box-shadow: var(--shadow);
+}
+
+/* Holo shine overlay */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-30%;
+  background:
+    linear-gradient(110deg,
+      rgba(124,92,255,.20),
+      rgba(0,212,255,.16),
+      rgba(255,204,102,.14),
+      rgba(255,92,122,.12));
+  opacity:.45;
+  filter: blur(2px);
+  transform: rotate(12deg);
+  pointer-events:none;
+}
+
+/* Sparkle */
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,.10) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,.06) 0 2px, transparent 3px);
+  opacity:.35;
+  animation: sparkle 3.8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes sparkle{
+  0%,100%{ transform: translate3d(0,0,0); opacity:.22; }
+  50%{ transform: translate3d(6px,-4px,0); opacity:.40; }
+}
+
+.card:hover{
+  box-shadow:
+    0 28px 65px rgba(0,0,0,.55),
+    0 0 0 3px rgba(124,92,255,.12),
+    0 0 30px rgba(0,212,255,.14);
+}
+
+.face{
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(255,255,255,.07));
+}
+
+.front{
+  background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(255,255,255,.06));
+  text-shadow: 0 12px 20px rgba(0,0,0,.35);
+}
+
+.back{
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(255,255,255,.07));
+}
+
+/* Selected + matched */
+.card.selected{
+  box-shadow:
+    0 0 0 4px rgba(255,204,102,.14),
+    0 22px 55px rgba(0,0,0,.48);
+}
+
+.matched .back{
+  outline: 2px solid rgba(43,227,122,.40);
+}
+
+.matched::after{
+  content:"🎉";
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  opacity:.96;
+  filter: drop-shadow(0 12px 20px rgba(43,227,122,.24));
+}
+
+.matchedBadge{
+  background: rgba(43,227,122,.18);
+  border: 1px solid rgba(43,227,122,.38);
+  color: var(--good);
+}
+
+/* Footer */
+footer{ color: var(--muted); }
+
+/* Confetti overlay (kept here too for safety if base missing) */
+#confetti{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
