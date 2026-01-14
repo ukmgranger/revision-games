@@ -213,6 +213,10 @@ function buildDeck(pairList) {
   return shuffle(cards);
 }
 
+const pairList = pickPairs(deck, mode);
+console.log(`[${deck.id}] mode=${mode} picked ${pairList.length} pairs:`, pairList.map(p => p[0]));
+
+
 // ===== Game state =====
 let deck = null;
 let cards = [];
@@ -457,4 +461,5 @@ function reset(mode) {
   // Start game
   reset($("mode").value);
 })();
+
 
