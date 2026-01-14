@@ -4,9 +4,9 @@
 */
 
 /* ---------- Fonts ---------- */
-/* Press Start 2P for the UI (arcade vibe) + VT323 for readable card text */
+/* UI = arcade; Card text = readable retro mono */
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap");
 
 /* ---------- Theme vars ---------- */
 :root{
@@ -34,7 +34,6 @@ body{
   font-family: "Press Start 2P", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   color: var(--text);
 
-  /* CRT-ish gradient */
   background:
     radial-gradient(1100px 760px at 50% 20%, rgba(255,43,214,.16), transparent 58%),
     radial-gradient(1000px 700px at 18% 55%, rgba(0,245,255,.13), transparent 55%),
@@ -44,8 +43,6 @@ body{
 }
 
 /* ---------- Heavy CRT overlays ---------- */
-
-/* vignette */
 body::before{
   content:"";
   position:fixed;
@@ -59,7 +56,6 @@ body::before{
   filter: blur(0.5px);
 }
 
-/* scanlines + subtle noise */
 body::after{
   content:"";
   position:fixed;
@@ -155,7 +151,6 @@ button:active{
   transform: translateY(1px);
 }
 
-/* Give key buttons “arcade” identity */
 #newGame{
   border-color: rgba(255,43,214,.50);
   box-shadow: var(--shadow2), 0 0 18px rgba(255,43,214,.18);
@@ -165,7 +160,6 @@ button:active{
   box-shadow: var(--shadow2), 0 0 18px rgba(0,245,255,.16);
 }
 
-/* Make selects readable & consistent */
 select{
   appearance:none;
   padding-right: 42px;
@@ -203,10 +197,8 @@ select option{
   text-transform: uppercase;
 }
 
-/* ---------- Cards: completely different ---------- */
-.grid{
-  gap: 12px;
-}
+/* ---------- Cards ---------- */
+.grid{ gap: 12px; }
 
 .card{
   border-radius: 10px;
@@ -214,43 +206,34 @@ select option{
   box-shadow: var(--shadow);
   background: rgba(0,0,0,.25);
   position: relative;
-
-  /* slightly taller for readable text */
-  height: 142px;
+  height: 148px; /* a bit taller for readability */
 }
 
-/* Replace standard holo overlays with neon bezel */
 .card::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
   border-radius: 10px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-  opacity: 1;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
 }
 
-/* Neon frame glow */
 .card::after{
   content:"";
   position:absolute;
   inset:-2px;
   border-radius: 12px;
   pointer-events:none;
-  background:
-    linear-gradient(90deg, rgba(255,43,214,.45), rgba(0,245,255,.35), rgba(139,255,43,.25));
+  background: linear-gradient(90deg, rgba(255,43,214,.45), rgba(0,245,255,.35), rgba(139,255,43,.25));
   filter: blur(10px);
   opacity: .35;
 }
 
-/* Card faces */
 .face{
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.22));
+  background: linear-gradient(180deg, rgba(0,0,0,.52), rgba(0,0,0,.18));
 }
 
-/* Front: big blocky icon */
 .front{
   font-size: 34px;
   letter-spacing: 1px;
@@ -259,20 +242,19 @@ select option{
     0 0 18px rgba(255,43,214,.12);
 }
 
-/* Back: readable retro terminal font */
+/* ✅ Highly readable card text */
 .back{
-  font-family: "VT323", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 18px;
-  line-height: 1.2;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+  font-weight: 500;
   text-transform: none;
-  letter-spacing: .2px;
+  letter-spacing: .1px;
   padding: 14px 14px;
-
-  /* tiny boost for contrast */
-  text-shadow: 0 1px 0 rgba(0,0,0,.55);
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 1px 0 rgba(0,0,0,.65);
 }
 
-/* Hover */
 .card:hover{
   box-shadow:
     var(--shadow),
@@ -280,7 +262,6 @@ select option{
     0 0 28px rgba(255,43,214,.14);
 }
 
-/* Selected */
 .card.selected{
   outline: none;
   box-shadow:
@@ -289,7 +270,6 @@ select option{
     0 0 28px rgba(255,226,74,.10);
 }
 
-/* Matched state: "POWER UP" vibe */
 .matched .back{
   border: 2px dashed rgba(139,255,43,.35);
 }
@@ -302,7 +282,6 @@ select option{
   padding: 6px 8px;
 }
 
-/* Replace celebration emoji with arcade stamp */
 .matched::after{
   content:"✔";
   position:absolute;
@@ -325,7 +304,6 @@ select option{
   100%{ transform: translateX(0) }
 }
 
-/* Footer */
 footer{
   font-size: 10px;
   text-transform: uppercase;
@@ -333,7 +311,6 @@ footer{
   color: var(--muted);
 }
 
-/* Confetti overlay */
 #confetti{
   position: fixed;
   inset: 0;
@@ -347,6 +324,6 @@ footer{
   .sub{ font-size: 9px; }
   .pill, button, select{ font-size: 9px; padding: 12px 10px; }
 
-  .card{ height: 136px; }
-  .back{ font-size: 16px; }
+  .card{ height: 142px; }
+  .back{ font-size: 11.5px; line-height: 1.5; }
 }
