@@ -11,6 +11,9 @@ const EASY_MISMATCH_HOLD_MS = 600;
 
 const $ = (id) => document.getElementById(id);
 
+// Toggle this on/off if you want logging
+const DEBUG = false;
+
 // ===== Utilities =====
 function shuffle(arr) {
   const a = [...arr];
@@ -38,14 +41,12 @@ function sample(arr, n) {
   // Random sample without replacement
   if (n >= arr.length) return [...arr];
   const copy = [...arr];
-  // Fisher–Yates shuffle partial
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy.slice(0, n);
 }
-
 
 // ===== Confetti =====
 function confettiBurst() {
@@ -198,13 +199,9 @@ function pickPairs(deck, mode) {
   const all = deck.pairs;
   const size = deck.modeSizes?.[mode];
 
-  // null/undefined means "all pairs"
-  if (size == null) return all;
-
-  // Random subset each new game for sized modes (easy_quick, quick, standard)
-  return sample(all, size);
+  if (size == null) return all;      // null/undefined => all pairs
+  return sample(all, size);          // random subset for sized modes
 }
-
 
 function buildDeck(pairList) {
   const cards = [];
@@ -214,10 +211,6 @@ function buildDeck(pairList) {
   });
   return shuffle(cards);
 }
-
-const pairList = pickPairs(deck, mode);
-console.log(`[${deck.id}] mode=${mode} picked ${pairList.length} pairs:`, pairList.map(p => p[0]));
-
 
 // ===== Game state =====
 let deck = null;
@@ -400,6 +393,15 @@ function reset(mode) {
   $("hint").textContent = `Hint (${hintsLeft})`;
 
   const pairList = pickPairs(deck, mode);
+
+  // ✅ Debug belongs here (deck + mode exist now)
+  if (DEBUG) {
+    console.log(
+      `[${deck.id}] mode=${mode} picked ${pairList.length} pairs:`,
+      pairList.map(p => p[0])
+    );
+  }
+
   cards = buildDeck(pairList);
   flipped = [];
   matched = new Set();
@@ -463,6 +465,3 @@ function reset(mode) {
   // Start game
   reset($("mode").value);
 })();
-
-
-
