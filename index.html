@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Revision Memory Match</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 id="title">Revision Memory Match</h1>
+        <div class="sub" id="subtitle">Match each <strong>term</strong> with the correct <strong>definition / fact</strong>.</div>
+      </div>
+
+      <div class="controls">
+        <div class="pill">⏱️ <span id="time">0</span>s</div>
+        <div class="pill">🧠 Moves: <span id="moves">0</span></div>
+
+        <!-- NEW: choose which deck/game -->
+        <select id="deckSelect" aria-label="Choose game"></select>
+
+        <select id="mode" aria-label="Choose mode">
+          <option value="easy_quick">Easy (Quick • all visible)</option>
+          <option value="easy_full">Easy (Full • all visible)</option>
+          <option value="quick">Quick</option>
+          <option value="standard" selected>Standard</option>
+          <option value="full">Full</option>
+        </select>
+
+        <button id="newGame">New Game</button>
+        <button id="hint">Hint (3)</button>
+      </div>
+    </header>
+
+    <div class="msg" id="message">
+      <div>Flip two cards. If they match, they stay up.</div>
+      <div class="tiny">Tip: Say the definition out loud when you find a match.</div>
+    </div>
+
+    <main class="grid" id="grid" aria-label="memory grid"></main>
+
+    <footer id="footerNote"></footer>
+  </div>
+
+  <!-- Registry + decks -->
+  <script src="deck-registry.js"></script>
+  <script src="deck-atoms.js"></script>
+  <script src="deck-energy.js"></script>
+  <script src="deck-reproduction.js"></script>
+  <script src="deck-plant-reproduction.js"></script>
+
+
+  <!-- Game logic -->
+  <script src="app.js"></script>
+</body>
+</html>
