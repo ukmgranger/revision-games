@@ -1,7 +1,7 @@
 console.log("DECKS:", window.DECKS);
 
 // app.js
-// Multi-deck Memory Match + best scores (localStorage per deck+mode) + confetti
+// Multi-deck Memory Match + best scores (localStorage per deck+mode) + confetti + theme switcher
 
 // ===== Timing (tweak these) =====
 const MISMATCH_READ_MS = 2000;
@@ -11,8 +11,20 @@ const EASY_MISMATCH_HOLD_MS = 600;
 
 const $ = (id) => document.getElementById(id);
 
-// Toggle this on/off if you want logging
+// Toggle console logging
 const DEBUG = false;
+
+// ===== Theme selection =====
+function getSavedTheme() {
+  return localStorage.getItem("memory_match_theme") || "standard";
+}
+function setSavedTheme(theme) {
+  localStorage.setItem("memory_match_theme", theme);
+}
+function applyTheme(theme) {
+  // standard is the default neon; retro is the arcade theme
+  document.documentElement.dataset.theme = (theme === "retro") ? "retro" : "standard";
+}
 
 // ===== Utilities =====
 function shuffle(arr) {
@@ -199,8 +211,8 @@ function pickPairs(deck, mode) {
   const all = deck.pairs;
   const size = deck.modeSizes?.[mode];
 
-  if (size == null) return all;      // null/undefined => all pairs
-  return sample(all, size);          // random subset for sized modes
+  if (size == null) return all; // all pairs (full / easy_full)
+  return sample(all, size);     // random subset for sized modes (easy_quick/quick/standard)
 }
 
 function buildDeck(pairList) {
@@ -394,7 +406,6 @@ function reset(mode) {
 
   const pairList = pickPairs(deck, mode);
 
-  // ✅ Debug belongs here (deck + mode exist now)
   if (DEBUG) {
     console.log(
       `[${deck.id}] mode=${mode} picked ${pairList.length} pairs:`,
@@ -432,6 +443,9 @@ function reset(mode) {
     return;
   }
 
+  // Apply saved theme on load (even before UI wiring)
+  applyTheme(getSavedTheme());
+
   // Populate deck selector
   const deckSelect = $("deckSelect");
   deckSelect.innerHTML = "";
@@ -449,6 +463,19 @@ function reset(mode) {
   // Load selected deck
   deck = getDeckById(deckSelect.value);
   applyDeckToUI(deck);
+
+  // Theme dropdown
+  const themeSelect = $("themeSelect");
+  if (themeSelect) {
+    const savedTheme = getSavedTheme();
+    themeSelect.value = savedTheme;
+    applyTheme(savedTheme);
+
+    themeSelect.addEventListener("change", (e) => {
+      setSavedTheme(e.target.value);
+      applyTheme(e.target.value);
+    });
+  }
 
   // Wire events
   $("newGame").addEventListener("click", () => reset($("mode").value));
