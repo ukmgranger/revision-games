@@ -1,3 +1,5 @@
+console.log("DECKS:", window.DECKS);
+
 // app.js
 // Multi-deck Memory Match + best scores (localStorage per deck+mode) + confetti
 
@@ -461,5 +463,6 @@ function reset(mode) {
   // Start game
   reset($("mode").value);
 })();
+
 
 
