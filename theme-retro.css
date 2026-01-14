@@ -1,0 +1,340 @@
+/* theme-retro.css
+   FULL reskin: Retro arcade / CRT vibe
+   Requires base.css loaded first.
+*/
+
+/* ---------- Font: pixel-ish feel ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root{
+  --bg1:#05030d;
+  --bg2:#140a22;
+
+  --text:#fff7ff;
+  --muted: rgba(255,247,255,.72);
+
+  --hot:#ff2bd6;   /* neon pink */
+  --cyan:#00f5ff;  /* neon cyan */
+  --lime:#8bff2b;  /* neon green */
+  --amber:#ffe24a; /* arcade yellow */
+  --red:#ff3b3b;
+
+  --panel: rgba(0,0,0,.35);
+  --panel2: rgba(0,0,0,.45);
+  --border: rgba(255,255,255,.20);
+
+  --shadow: 0 22px 60px rgba(0,0,0,.65);
+  --shadow2: 0 10px 22px rgba(0,0,0,.55);
+}
+
+body{
+  font-family: "Press Start 2P", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--text);
+
+  /* CRT-ish gradient */
+  background:
+    radial-gradient(1100px 760px at 50% 20%, rgba(255,43,214,.16), transparent 58%),
+    radial-gradient(1000px 700px at 18% 55%, rgba(0,245,255,.13), transparent 55%),
+    radial-gradient(900px 650px at 82% 60%, rgba(139,255,43,.10), transparent 60%),
+    radial-gradient(900px 650px at 50% 110%, rgba(255,226,74,.07), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+/* ---------- Heavy CRT overlays ---------- */
+
+/* vignette */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-10%;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0 50%, rgba(0,0,0,.55) 80%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.06) 0 1px, transparent 2px);
+  opacity:.85;
+  filter: blur(0.5px);
+}
+
+/* scanlines + subtle noise */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.08) 0px,
+      rgba(255,255,255,.08) 1px,
+      rgba(0,0,0,0) 3px,
+      rgba(0,0,0,0) 7px
+    ),
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.04), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,.03), transparent 45%);
+  opacity:.14;
+  mix-blend-mode: overlay;
+  animation: crtFlicker 5s infinite;
+}
+@keyframes crtFlicker{
+  0%, 100%{ opacity:.14; }
+  35%{ opacity:.12; }
+  55%{ opacity:.16; }
+  78%{ opacity:.13; }
+}
+
+/* ---------- Layout tweaks ---------- */
+header{
+  backdrop-filter: none;
+  padding-top: 14px;
+}
+
+h1{
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 12px rgba(255,43,214,.30),
+    0 0 22px rgba(0,245,255,.18);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+h1::before{
+  content:"🕹️";
+  filter: drop-shadow(0 0 16px rgba(0,245,255,.22));
+}
+
+.sub{
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+
+/* ---------- UI blocks ---------- */
+.pill{
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,.22);
+  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.32));
+  box-shadow: var(--shadow2), 0 0 18px rgba(0,245,255,.10);
+  font-size: 10px;
+  padding: 10px 10px;
+}
+
+button, select{
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,.22);
+  background: linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.32));
+  box-shadow: var(--shadow2);
+  color: var(--text);
+  font-size: 10px;
+  padding: 12px 12px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
+
+button{
+  transition: transform .05s ease, filter .15s ease, box-shadow .15s ease;
+}
+
+button:hover{
+  filter: brightness(1.1);
+  box-shadow:
+    var(--shadow),
+    0 0 0 3px rgba(255,43,214,.16),
+    0 0 22px rgba(0,245,255,.16);
+}
+
+button:active{
+  transform: translateY(1px);
+}
+
+/* Give key buttons “arcade” identity */
+#newGame{
+  border-color: rgba(255,43,214,.50);
+  box-shadow: var(--shadow2), 0 0 18px rgba(255,43,214,.18);
+}
+#hint{
+  border-color: rgba(0,245,255,.55);
+  box-shadow: var(--shadow2), 0 0 18px rgba(0,245,255,.16);
+}
+
+/* Make selects readable & consistent */
+select{
+  appearance:none;
+  padding-right: 42px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.85) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.85) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 55%,
+    calc(100% - 12px) 55%;
+  background-size: 8px 8px, 8px 8px;
+  background-repeat: no-repeat;
+}
+select option{
+  background: #090612;
+  color: var(--text);
+}
+
+/* ---------- Message panel ---------- */
+.msg{
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,.20);
+  background: linear-gradient(180deg, rgba(0,0,0,.58), rgba(0,0,0,.30));
+  box-shadow: var(--shadow);
+}
+
+.msg strong{
+  color: var(--amber);
+  text-shadow: 0 0 12px rgba(255,226,74,.16);
+}
+
+.tiny{
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+
+/* ---------- Cards: completely different ---------- */
+.grid{
+  gap: 12px;
+}
+
+.card{
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,.22);
+  box-shadow: var(--shadow);
+  background: rgba(0,0,0,.25);
+  position: relative;
+}
+
+/* Remove the standard “holo” overlays: replace with neon bezel */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  opacity: 1;
+}
+
+/* Neon frame */
+.card::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: 12px;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(255,43,214,.45), rgba(0,245,255,.35), rgba(139,255,43,.25));
+  filter: blur(10px);
+  opacity: .35;
+}
+
+/* Card faces */
+.face{
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,.62), rgba(0,0,0,.30));
+}
+
+/* Front: big blocky icon */
+.front{
+  font-size: 34px;
+  letter-spacing: 1px;
+  text-shadow:
+    0 0 10px rgba(0,245,255,.18),
+    0 0 18px rgba(255,43,214,.12);
+}
+
+/* Back: more readable */
+.back{
+  font-size: 10px;
+  line-height: 1.55;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  padding: 12px 12px;
+}
+
+/* Hover */
+.card:hover{
+  box-shadow:
+    var(--shadow),
+    0 0 0 3px rgba(0,245,255,.18),
+    0 0 28px rgba(255,43,214,.14);
+}
+
+/* Selected */
+.card.selected{
+  outline: none;
+  box-shadow:
+    var(--shadow),
+    0 0 0 3px rgba(255,226,74,.22),
+    0 0 28px rgba(255,226,74,.10);
+}
+
+/* Matched state: "POWER UP" vibe */
+.matched .back{
+  border: 2px dashed rgba(139,255,43,.35);
+}
+
+.matchedBadge{
+  background: rgba(139,255,43,.16);
+  border: 2px solid rgba(139,255,43,.35);
+  color: var(--lime);
+  font-size: 9px;
+  padding: 6px 8px;
+}
+
+/* Replace celebration emoji with arcade stamp */
+.matched::after{
+  content:"✔";
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 14px;
+  color: var(--lime);
+  text-shadow: 0 0 14px rgba(139,255,43,.20);
+  opacity: .95;
+}
+
+/* Shake: harsher */
+.shake{ animation: shakeRetro .16s linear 3; }
+@keyframes shakeRetro{
+  0%{ transform: translateX(0) }
+  20%{ transform: translateX(-5px) }
+  40%{ transform: translateX(5px) }
+  60%{ transform: translateX(-4px) }
+  80%{ transform: translateX(4px) }
+  100%{ transform: translateX(0) }
+}
+
+/* Footer */
+footer{
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+}
+
+/* Confetti still works, but feel free to disable for retro if you want */
+#confetti{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Mobile tweak */
+@media (max-width: 520px){
+  h1{ font-size: 16px; }
+  .sub{ font-size: 9px; }
+  .pill, button, select{ font-size: 9px; padding: 12px 10px; }
+  .back{ font-size: 9px; }
+}
